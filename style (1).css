@@ -1,0 +1,42 @@
+#homepageTitle{
+  text-align: center;
+  background-color:red; 
+  
+  font-family :cursive
+}
+
+body{
+  background-image:       ;
+}
+
+.container{
+  contain;
+  
+}
+
+header{
+  text-align: center;
+  color: white;
+  background-color: blue;
+  font-family :arial;
+}
+details{
+  color : white;
+  background-color : #OE566A;
+  text-align: center;
+}
+summary{
+  color: #42AEB5;
+  background-color : #0E566A;
+  text-align : center;
+}
+
+button{
+  border-radius: 5px;
+  background-colour : red;
+  
+}
+
+button:hover{
+  text-shadow: 5px;
+}
