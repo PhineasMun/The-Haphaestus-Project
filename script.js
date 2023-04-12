@@ -78,7 +78,13 @@ var locations = [
 
             marker.setMap(map);
 
-            
+            answer = new google.maps.LatLng(currCoords.lat, currCoords.lng);
+            answerMarker = new google.maps.Marker({
+              position: answer,
+
+            });
+
+            answerMarker.setMap(map);
         });
       }
 
