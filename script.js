@@ -44,8 +44,42 @@ var locations = [
             enableCloseButton: false,
             linksControl: false,
             showRoadLabels: false,
+            zoomControl: false,
           }
         );
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 10.459699331252484, lng: -61.248305001604706},
+            zoom: 10,
+            minZoom: 8,
+            mapTypeId: "roadmap",
+            mapTypeControl: false,
+            streetViewControl: false,
+
+          }
+        );
+        
+        infoCoords = new google.maps.LatLng(10.459699331252484, -61.248305001604706);
+
+        info = new google.maps.InfoWindow({
+          position: infoCoords,
+          content: "hello",
+        })
+        
+        info.open(map);
+
+        map.addListener("dblclick", (setMarker) => {
+            guess = new google.maps.LatLng(setMarker.latLng.lat(), setMarker.latLng.lng());
+
+            var marker = new google.maps.Marker({
+              position: setMarker.latLng,
+
+            })
+
+            marker.setMap(map);
+
+            
+        });
       }
 
       function guess() {
