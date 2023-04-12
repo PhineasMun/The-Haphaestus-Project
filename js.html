@@ -2,17 +2,22 @@
 <html>
   <head>
     <style>
-        #map, #pano {
-          margin-left: auto;
-          margin-right: auto;
-            width: 75%;
-            height: 400px;
-            
+
+      html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+       #pano {
+          float: left;
+          width: 100%;
+          height: 90%;  
         }
 
-        #pano {
-          filter: invert(1);
-        }
+        /* #pano {
+          //filter: invert(1);
+        } */
 
         #panel {
           position: absolute;
@@ -28,6 +33,21 @@
           padding-left: 10px;
         }
         
+        #map {
+          position: absolute;
+          top: 50%;
+          left: 62%;
+          z-index: 5;
+          background-color: #fff;
+          padding: 5px;
+          border: 1px solid #FFFFFF;
+          text-align: center;
+          font-family: sans-serif;
+          line-height: 30px;
+          padding-left: 10px;
+          height: 45%;
+          width: 35%;
+        }
     </style>
   </head>
   <body>
@@ -36,17 +56,17 @@
     <script>
     
       var locations = [
-         [{lat: 10.682716795748851, lng: -61.634263777173025}, {area: 'Chaguaramas'}],
-         [{lat: 10.643028974974573, lng: -61.39991522930899}, {area: 'UWI'}],
-         [{lat: 10.557596334748027, lng: -61.373316914394444}, {area: 'Cunupia'}],
-         [{lat: 10.457291721420905, lng:-61.410887875422766}, {area: 'Freeport'}],
-         [{lat: 10.282128818991369, lng: -61.46708001064193}, {area: 'San Fernando'}],
-         [{lat: 10.238417795702365, lng: -61.61852558887784}, {area: 'La Brea'}],
-         [{lat: 10.174514222080873, lng: -61.68236069639586}, {area: 'Point Fortin'}],
-         [{lat: 10.760456662778234, lng: -61.440619707022684}, {area: 'Maracas'}],
-         [{lat: 10.58669082131912, lng: -61.13312221327746}, {area: 'Sangre Grande'}],
-         [{lat: 10.27479893584664, lng: -61.437593548877715}, {area: 'C3'}],
-         [{lat: 10.66117163159793, lng: -61.50870416894999}, {area: 'Port Of Spain'}],
+         [{lat: 10.682716795748851, lng: -61.634263777173025}, {area: 'Chaguaramas'}], //
+         [{lat: 10.643028974974573, lng: -61.39991522930899}, {area: 'UWI'}], //
+         [{lat: 10.557596334748027, lng: -61.373316914394444}, {area: 'Cunupia'}], //
+         [{lat: 10.457291721420905, lng:-61.410887875422766}, {area: 'Freeport'}], //a
+         [{lat: 10.282128818991369, lng: -61.46708001064193}, {area: 'San Fernando'}], //
+         [{lat: 10.238417795702365, lng: -61.61852558887784}, {area: 'La Brea'}], //
+         [{lat: 10.174514222080873, lng: -61.68236069639586}, {area: 'Point Fortin'}], //
+         [{lat: 10.760456662778234, lng: -61.440619707022684}, {area: 'Maracas'}], //a
+         [{lat: 10.58669082131912, lng: -61.13312221327746}, {area: 'Sangre Grande'}], //a
+         [{lat: 10.27479893584664, lng: -61.437593548877715}, {area: 'C3'}], //
+         [{lat: 10.66117163159793, lng: -61.50870416894999}, {area: 'Port Of Spain'}], //
       ]
 
       let currLoc = locations[Math.floor(Math.random() * (locations.length))]
@@ -64,8 +84,42 @@
             enableCloseButton: false,
             linksControl: false,
             showRoadLabels: false,
+            zoomControl: false,
           }
         );
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 10.459699331252484, lng: -61.248305001604706},
+            zoom: 10,
+            minZoom: 8,
+            mapTypeId: "roadmap",
+            mapTypeControl: false,
+            streetViewControl: false,
+
+          }
+        );
+        
+        infoCoords = new google.maps.LatLng(10.459699331252484, -61.248305001604706);
+
+        info = new google.maps.InfoWindow({
+          position: infoCoords,
+          content: "hello",
+        })
+        
+        info.open(map);
+
+        map.addListener("dblclick", (setMarker) => {
+            guess = new google.maps.LatLng(setMarker.latLng.lat(), setMarker.latLng.lng());
+
+            var marker = new google.maps.Marker({
+              position: setMarker.latLng,
+
+            })
+
+            marker.setMap(map);
+
+            
+        });
       }
 
       
@@ -77,18 +131,35 @@
       // }
       // 
     
-
+      function reset() {
+        currLoc = locations[Math.floor(Math.random() * (locations.length))]
+        currCoords = currLoc[0]
+        currArea = currLoc[1].area
+        initialize();
+      }  
       
-      function guess() {
-        let guess = window.prompt("What is the name of this area?");
+      // function guess() {
+      //   let guess = window.prompt("What is the name of this area?");
 
-        if (guess.toLowerCase() === currArea.toLocaleLowerCase()) {
-          alert("correct");
-        }
-        else {
-          alert(currArea);
-        }
-      }
+      //   if (guess.toLowerCase() === currArea.toLocaleLowerCase()) {
+      //     alert("correct");
+      //   }
+      //   else {
+      //     alert(currArea);
+      //   }
+
+      //   reset();
+      // }
+          
+    </script>
+
+    <h3>My Google Maps Demo</h3>
+    <div id="pano"></div>
+    <div id="panel"><input type="button" value="My guess" onclick="guess()"/></div>
+    <div id="map"></div>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASL9aRFVFYXQ-F3PeLpS6bkpQGBQCcBho=&callback=initialize" defer></script>
+  </body>
+</html>
           
     </script>
 
