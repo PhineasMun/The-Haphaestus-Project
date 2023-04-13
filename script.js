@@ -1,20 +1,3 @@
-var slideIndex=1;
-showDivs(slideIndex);
-
-function control(n){
-  showDivs(slideIndex+=n);
-}
-
-function showDivs(n){
-  var i;
-  var x = document.getElementsByClassName("homeSlides");
-  if (n > x.length) {slideIndex = 1}
-  for (i = 0; i <x.length;i++){
-    x[i].style.display = "none";
-  }
-  x[slideIndex-1].style.display = "block";
-}
-
 var locations = [
          [{lat: 10.682716795748851, lng: -61.634263777173025}], //
          [{lat: 10.643028974974573, lng: -61.39991522930899}], //
